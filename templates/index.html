@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Tenali+Ramakrishna&display=swap" rel="stylesheet">
+    <style>
+        body{
+            font-family: 'Tenali Ramakrishna', sans-serif;
+            background-color:#FFA900;
+            color:#2F0C38;
+            font-size: 1.3em;
+        }
+        #transactionInformation{
+            /* float:left; */
+            width: 40%;
+            /* margin-left:20%; */
+        }
+        /* #transactionInformation{
+                padding-left:10%;
+        } */
+        h1{
+        font-family: 'Oswald', sans-serif;
+        color: #2F0C38;
+        }
+        #submitButton{
+            background-color: #2F0C38;
+            font-weight: 500;
+            color:#FFA900;
+            font-size:1.5em;
+            font-family: 'Oswald', sans-serif;
+            border-radius: 8px;
+        }
+
+        .text-input{
+            width: 250px;
+            height:25px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+    {% autoescape false %}
+
+<form action="" method="POST">
+
+    <center>
+        <h1>
+            Fetch Rewards Points Calculator
+        </h1>
+
+    <div id="transactionInformation">
+
+
+
+    <!--Trnasaction Payer Name-->
+
+    <label>Please Enter Transaction Payer Name:</label><br/>
+    <input name="payerName" type="text" value="DANNON" class="text-input" /><br/>
+<br/>
+    <!--Trsansaction points -->
+
+    <label>Please enter the number of points for this transaction:</label><br/>
+    <input name="transactionPoints" type="text" value="300" class="text-input" /><br/>
+<br/>
+    </div>
+<div id="transactionInformation">
+
+
+    <!--Transaction Date -->
+
+    <label>Please enter the transaction date (MM/DD/YYYY):</label>
+    <br>
+    <input name="transactionDate" type="text" value="11/11/2020" class="text-input"/> <br/>
+<br/>
+    <!-- Transaction Time -->
+
+    <label>Please enter the transaction time (HH:MM):</label>
+    <br>
+    <input name="transactionTime" type="text" value="14:22" class="text-input"/> <br/>
+<br/>
+
+<p><button type="submit" name="action" value="Add A Transaction" id="submitButton"/>Add A Transaction</button></p>
+<p> <b>Transactions Submitted</b></p>
+{% for transaction in transaction_information %}
+    <p>{{transaction['payer']}}
+    --> {{transaction['points']}}
+    --> {{transaction['timestamp']}}</p>
+{% endfor %}
+
+    <!-- User Points Balance -->
+    <p>After all Transactions have been added, click the button below to calculate the balance</p>
+    <label>Please enter the total points the user has available to spend:</label>
+    <br>
+    <input name="pointsToSpend" type="text" value="9000" class="text-input"/> <br/>
+<br/>
+
+     <p><button type="submit" name="action" value="Calculate The Balance" id="submitButton"/>Calculate The Balance</button></p>
+
+
+</div>
+</center>
+
+</form>
+
+<div class="payer-balance-info">
+<center>
+
+<p><b>Total Points to Spend</b></p>
+<p>{{ points_from_submission }}</p>
+
+<p><b>Balance based on submissions</b></p>
+{% for payer in balance_from_submission %}
+    <p>{{ payer }}
+    --> {{ balance_from_submission[payer] }}</p>
+{% endfor %}
+
+<p><b>Balance per Assignment</b></p>
+{% for payer in balances %}
+    <p>{{ payer }}
+    --> {{ balances[payer] }}</p>
+{% endfor %}
+
+{% endautoescape %}
+{% endblock %}
+</center>
+</div>
+
+</body>
+</html>
