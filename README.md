@@ -2,7 +2,7 @@
 *This is a submission for Fetch Rewards Backend Engineer Apprenticeship*
 
 ---
-##Instructions
+## Instructions
 **For main.py & test.py**
 1. Run test.py
 2. This will run the unittest for main.py to confirm the results are as expected
@@ -43,4 +43,4 @@ Balance Expected Result
 ***See below an image of the index.html page on load***
 ![index.html page with default values and Balance Expected Results per assignment](https://github.com/TriceB/FetchBE/blob/master/Fetch%20Rewards%20index%20page.png?raw=true)
 
-###Thank you for your consideration!
+### Thank you for your consideration!
