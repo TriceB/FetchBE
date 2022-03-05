@@ -21,13 +21,16 @@ def transactions_form():
     total customer points to calculate the balance by payer
     
     TODO: add try/except to catch errors and incorrect submission formats/values
-    - fix issue causing index not to display balance from main.py
-    - fix issue causing index not to display the points to spend
+    - fix issue causing index not to display balance from main.py - fixed
+    - fix issue causing index not to display the points to spend - fixed
     
     """
+    # print(spend_points)
+    # run the function to get points balance per the assignment instructions
+    main.get_points_balance()
     # display the expected balance result based on the assignment instructions
     balances = main.payer_balance_after_spending
-    # print(balance)
+    # print(balances)
     # when the user clicks the "Add a Transaction" button, the form will gather
     # all of the information submitted to store in the json file and display
     # all transactions submitted back to the user onscreen
@@ -54,15 +57,15 @@ def transactions_form():
     # when the user enters the amount of points to spend and clicks
     # the "Calculate The Balance" button, the payer balances will be calculated
     if request.method == "POST" and request.form.get("action") == "Calculate The Balance":
-        print("Calculating...")
+        print("Calculating Balance per Submission...")
         points_from_submission = int(request.form.get("pointsToSpend"))
-        print(points_from_submission)
+        # print(points_from_submission)
         transactions = points.add_transactions()
         points.spend_points(points_from_submission, transactions)
         balance_from_submission = points.get_points_balance()
         return render_template("index.html",
                                transaction_information=transaction_information,
-                               points_from_submisstion=points_from_submission,
+                               points_from_submission=points_from_submission,
                                balance_from_submission=balance_from_submission)
     return render_template("index.html",
                            balances=balances)
