@@ -23,7 +23,7 @@ import json
 
 # TODO: write a function that takes in transactions to create a list like the below - call the route in API
 
-def add_transactions():
+def get_transactions():
 	"""
 	Function to pull transactions.json file with transactions
 	submitted by user via Flask API
@@ -177,7 +177,7 @@ result = dict(counter)
 	return payer_balance_after_spending
 
 
-# add_transactions()
+# get_transactions()
 # spend_points(9000, add_transactions())
 # get_points_balance()
 """
