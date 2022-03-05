@@ -1,0 +1,32 @@
+[
+    {
+        "payer": "DANNON",
+        "points": 300,
+        "timestamp": "2020-11-11T14:22:00Z"
+    },
+    {
+        "payer": "DELL",
+        "points": 1000,
+        "timestamp": "2020-10-02T13:00:00Z"
+    },
+    {
+        "payer": "APPLE",
+        "points": 5000,
+        "timestamp": "2020-09-01T13:50:00Z"
+    },
+    {
+        "payer": "COSTCO",
+        "points": 8000,
+        "timestamp": "2020-11-10T14:00:00Z"
+    },
+    {
+        "payer": "DELL",
+        "points": 500,
+        "timestamp": "2020-10-01T15:00:00Z"
+    },
+    {
+        "payer": "INSTACART",
+        "points": 3200,
+        "timestamp": "2020-08-25T09:00:00Z"
+    }
+]
