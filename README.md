@@ -41,6 +41,6 @@ Balance Expected Result
 ```
 
 ***See below an image of the index.html page on load***
-![index.html page with default values and Balance Expected Results per assignment](Fetch Rewards index page.png)
+![index.html page with default values and Balance Expected Results per assignment](https://github.com/TriceB/FetchBE/blob/master/Fetch%20Rewards%20index%20page.png?raw=true)
 
 ###Thank you for your consideration!
