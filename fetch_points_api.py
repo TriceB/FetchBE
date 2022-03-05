@@ -35,11 +35,77 @@ def transactions_form():
     # all of the information submitted to store in the json file and display
     # all transactions submitted back to the user onscreen
     if request.method == "POST" and request.form.get('action') == "Add A Transaction":
-        print("Adding Transaction...")
+        
         payer_name = request.form.get('payerName').upper()
-        payer_points = int(request.form.get('transactionPoints'))
+        payer_points = request.form.get('transactionPoints')
+        
         transaction_date = request.form.get('transactionDate')
         transaction_time = request.form.get('transactionTime')
+        
+        if not payer_name or not payer_points or not transaction_date or not transaction_time:
+            error_statement = "All Form Fields Are Required"
+            if payer_points:
+                try:
+                    payer_points = int(payer_points)
+                except ValueError:
+                    points_error = "*Please enter a number"
+                    return render_template("index.html",
+                                           error_statement=error_statement,
+                                           payer_name=payer_name,
+                                           points_error=points_error,
+                                           transaction_date=transaction_date,
+                                           transaction_time=transaction_time)
+            if transaction_date and not transaction_time:
+                print("made it to date check")
+                try:
+                    date_format = "%m/%d/%Y"
+                    datetime.strptime(transaction_date, date_format)
+                except ValueError:
+                    date_format_error = "*The date format entered is incorrect. It should be MM/DD/YYYY"
+                    return render_template("index.html",
+                                           error_statement=error_statement,
+                                           payer_name=payer_name,
+                                           payer_points=payer_points,
+                                           date_format_error=date_format_error,
+                                           transaction_time=transaction_time)
+            if transaction_time and not transaction_date:
+                print("made it to time check")
+                try:
+                    time_format = "%H:%M"
+                    datetime.strptime(transaction_time, time_format)
+                except ValueError:
+                    time_format_error = "*The time format entered is incorrect. It should be HH:MM"
+                    return render_template("index.html", error_statement=error_statement,
+                                           payer_name=payer_name,
+                                           payer_points=payer_points,
+                                           transaction_date=transaction_date,
+                                           time_format_error=time_format_error,
+                                           transaction_time=transaction_time)
+            elif transaction_date and transaction_time:
+                try:
+                    date_format = "%m/%d/%Y"
+                    datetime.strptime(transaction_date, date_format)
+                    time_format = "%H:%M"
+                    datetime.strptime(transaction_time, time_format)
+                except ValueError:
+                    date_format_error = "*The date format entered is incorrect. It should be MM/DD/YYYY"
+                    time_format_error = "*The time format entered is incorrect. It should be HH:MM"
+                    return render_template("index.html",
+                                           error_statement=error_statement,
+                                           payer_name=payer_name,
+                                           payer_points=payer_points,
+                                           date_format_error=date_format_error,
+                                           time_format_error=time_format_error)
+            
+            return render_template("index.html",
+                                   error_statement=error_statement,
+                                   payer_name=payer_name,
+                                   payer_points=payer_points,
+                                   transaction_date=transaction_date,
+                                   transaction_time=transaction_time)
+
+        payer_points = int(payer_points)
+        print("Adding Transaction...")
         transaction_date_time = transaction_date + " " + transaction_time
         full_date_time = datetime.strptime(transaction_date_time, '%m/%d/%Y %H:%M')
         full_date_time_object = full_date_time.strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -58,8 +124,22 @@ def transactions_form():
     # the "Calculate The Balance" button, the payer balances will be calculated
     if request.method == "POST" and request.form.get("action") == "Calculate The Balance":
         print("Calculating Balance per Submission...")
-        points_from_submission = int(request.form.get("pointsToSpend"))
-        # print(points_from_submission)
+        points_from_submission = request.form.get("pointsToSpend")
+        
+        if not points_from_submission:
+            error_statement = "Please Enter Points Available to Spend"
+            return render_template("index.html",
+                                   error_statement=error_statement,
+                                   points_from_submission=points_from_submission)
+        elif points_from_submission:
+            try:
+                points_from_submission = int(points_from_submission)
+            except ValueError:
+                points_submission_error = "*Please enter a number"
+                return render_template("index.html",
+                                       points_submission_error=points_submission_error)
+        
+        points_from_submission = int(points_from_submission)
         transactions = points.add_transactions()
         points.spend_points(points_from_submission, transactions)
         balance_from_submission = points.get_points_balance()
