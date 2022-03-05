@@ -51,7 +51,7 @@ def main():
 # TODO: write a function to spend points that takes in the number of points to be spent
 #  - call the route in API - use a submit/POST request to send the data to the API
 
-payer_balances = []
+payer_points_spent = []
 points_available_to_spend_by_payer = []
 payer_points = []
 
@@ -85,39 +85,43 @@ def spend_points(points_to_spend):
                 # print(f" points spent by {transaction['payer']} = {point}")
                 points_to_spend = abs(point - points_to_spend)
                 # print(f" new total is {points_to_spend} and {transaction['payer']} = {point}")
-                # add the payer and total spent to new empty payer_balance list
-                payer_balances.append({transaction['payer']: -point})
+                # add the payer and total spent to new empty points_spent_by_payer list
+                payer_points_spent.append({transaction['payer']: -point})
 
             else:
                 # if the transaction points are greater than the amount of points to spend,
                 # only spend the points to spend points
                 # print(f" {transaction['payer']} = {point} points to spend greater than total. Only spend {points_to_spend}  ")
-                payer_balances.append({payer: -points_to_spend})
+                payer_points_spent.append({payer: -points_to_spend})
                 points_to_spend = points_to_spend - point
 
                 # print(f" new total is {abs(points_to_spend)} and {transaction['payer']} balance is = {abs(points_to_spend)}")
+
+        else:
+            payer_points_spent.append({payer: 0})
+            # print(f"payer balances from last else --> {payer_points_spent}")
         
-    # sum the points in the payer_balances list
-    payer_balance = collections.Counter()
-    for points in payer_balances:
-        payer_balance.update(points)
+    # sum the points in the payer_points_spent list
+    points_spent_by_payer = collections.Counter()
+    for points in payer_points_spent:
+        points_spent_by_payer.update(points)
 
     # turn the results of sums in the collection into a dictionary
-    payer_balance = dict(payer_balance)
-    # print(f'the result is = {payer_balance}')
+    points_spent_by_payer = dict(points_spent_by_payer)
+    # print(f'the result is = {points_spent_by_payer}')
 
-    for payers in payer_balance:
+    for payers in points_spent_by_payer:
         payer = payers
-        point = payer_balance[payer]
+        point = points_spent_by_payer[payer]
         payer_points.append({'payer': payer, 'points': point})
     # add the payer and total spent to new empty balance list
     # if a payer does not exist in balance, append the payer/points to balance
-        # for payer_balance in balance:
+        # for points_spent_by_payer in balance:
         # if not any(transaction['payer'] == balance[0]["payer"] in keys for keys in balance):
-        # if payer_balance not in balance:
+        # if points_spent_by_payer not in balance:
         # # if 'DANNON' not in payer["payer"]:
         #     print(transaction['payer'],  transaction['points'])
-        #     # payer_balance[payer] = point
+        #     # points_spent_by_payer[payer] = point
         #     balance.append([payer, point])
 
         # # if a payer is already in the balance list, do not append it again,
@@ -128,7 +132,7 @@ def spend_points(points_to_spend):
         #     # balance.append(point)
         #     print(f"balance to update ---- {transaction['payer']}")
 
-    # pprint(payer_balances)
+    # pprint(payer_points_spent)
     return payer_points
 
 
@@ -163,8 +167,9 @@ result = dict(counter)
                 balance_leftover = payer_transaction_points[transaction_payer] + payer['points']
 
                 payer_balance_after_spending[transaction_payer] = balance_leftover
-
-    # print(payer_balance_after_spending)
+    
+    print("Payer Balances from main.py per Assignment instructions")
+    print(payer_balance_after_spending)
     return payer_balance_after_spending
 
 
