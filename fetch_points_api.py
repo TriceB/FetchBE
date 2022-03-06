@@ -66,7 +66,7 @@ def transactions_form():
 			# confirm if the date has been entered in the correct format
 			# if not in the correct format, display error message to user to enter using the MM/DD/YYYY format
 			if transaction_date and not transaction_time:
-				print("made it to date check")
+				# print("made it to date check")
 				try:
 					date_format = "%m/%d/%Y"
 					datetime.strptime(transaction_date, date_format)
@@ -83,18 +83,18 @@ def transactions_form():
 			# confirm if the time has been entered in the correct format
 			# if not in the correct format, display error message to user to enter using the HH:MM format
 			if transaction_time and not transaction_date:
-				print("made it to time check")
+				# print("made it to time check")
 				try:
 					time_format = "%H:%M"
 					datetime.strptime(transaction_time, time_format)
 				except ValueError:
 					time_format_error = "*The time format entered is incorrect. It should be HH:MM"
-					return render_template("index.html", error_statement=error_statement,
+					return render_template("index.html",
+					                       error_statement=error_statement,
 					                       payer_name=payer_name,
 					                       payer_points=payer_points,
 					                       transaction_date=transaction_date,
-					                       time_format_error=time_format_error,
-					                       transaction_time=transaction_time)
+					                       time_format_error=time_format_error)
 			
 			# check if the user has input both the transaction time and the date
 			# confirm if both have been entered in the correct format
@@ -122,8 +122,30 @@ def transactions_form():
 			                       transaction_date=transaction_date,
 			                       transaction_time=transaction_time)
 		
+		# check if the user has entered something in all of the fields but all entries are in the wrong format
+		if payer_name and payer_points and transaction_date and transaction_time:
+			
+			try:
+				payer_points = int(payer_points)
+				date_format = "%m/%d/%Y"
+				datetime.strptime(transaction_date, date_format)
+				time_format = "%H:%M"
+				datetime.strptime(transaction_time, time_format)
+			
+			except ValueError:
+				error_statement = "All Form Fields Are Required"
+				points_error = "*Please enter a number"
+				date_format_error = "*The date format entered is incorrect. It should be MM/DD/YYYY"
+				time_format_error = "*The time format entered is incorrect. It should be HH:MM"
+				return render_template("index.html",
+				                       error_statement=error_statement,
+				                       payer_name=payer_name,
+				                       points_error=points_error,
+				                       date_format_error=date_format_error,
+				                       time_format_error=time_format_error)
 		payer_points = int(payer_points)
 		print("Adding Transaction...")
+		
 		# concatenate the transaction date and time together to turn it into a datetime object
 		transaction_date_time = transaction_date + " " + transaction_time
 		
